@@ -4,23 +4,31 @@ import Player from "./components/Player";
 import GameBoard from "./components/GameBoard";
 import Log from "./components/Log";
 
+const deriveActivePlayer = (gameTurns) => {
+  let currentPlayer = "X";
+  if (gameTurns.length > 0 && gameTurns[0].player === "X") {
+    currentPlayer = "O";
+  }
+
+  return currentPlayer;
+};
+
 const App = () => {
-  const [activePlayer, setActivePlayer] = useState("X");
+  // const [activePlayer, setActivePlayer] = useState("X");
   const [gameTurns, setGameTurns] = useState([]);
+
+  const activePlayer = deriveActivePlayer(gameTurns)
 
   // 게임 순서
   // 최근 순서가 X 였으면, 이번엔 O
   const handlePlayer = (rowIdx, colIdx) => {
-    setActivePlayer((curPlayer) => (curPlayer === "X" ? "O" : "X"));
+    // setActivePlayer((curPlayer) => (curPlayer === "X" ? "O" : "X"));
     setGameTurns((prevTurns) => {
-      let currentPlayer = "X";
+      const currentPlayer = deriveActivePlayer(prevTurns);
 
-      if (prevTurns.length > 0 && prevTurns[0].player === "X") {
-        currentPlayer = "O";
-      }
-
+      // 이전 차례에 기반한 내용
       const updatedTurns = [
-        { square: { row: rowIdx, col: colIdx }, player: activePlayer },
+        { square: { row: rowIdx, col: colIdx }, player: currentPlayer },
         ...prevTurns,
       ];
 
