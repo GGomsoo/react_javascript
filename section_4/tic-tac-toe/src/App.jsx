@@ -46,7 +46,7 @@ const App = () => {
         </ol>
         <GameBoard onPlayer={handlePlayer} turns={gameTurns} />
       </div>
-      <Log />
+      <Log turns={gameTurns} />
     </main>
   );
 };
