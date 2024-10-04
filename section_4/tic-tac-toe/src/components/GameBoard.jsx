@@ -4,7 +4,7 @@ const initialGameBoard = [
   [null, null, null],
 ];
 
-const GameBoard = ({onPlayer, turns}) => {
+const GameBoard = ({ onPlayer, turns }) => {
   // gameBoard는 계산된 값
   // 어떠한 상태에서 파생된 것 (App.jsx의 gameTurns)
   let gameBoard = initialGameBoard;
@@ -36,7 +36,13 @@ const GameBoard = ({onPlayer, turns}) => {
           <ol>
             {row.map((playerSymbol, colIdx) => (
               <li key={colIdx}>
-                <button onClick={() => onPlayer(rowIdx, colIdx)}>{playerSymbol}</button>
+                {/* 한 번 선택한 버튼은 비활성화 */}
+                <button
+                  onClick={() => onPlayer(rowIdx, colIdx)}
+                  disabled={playerSymbol !== null}
+                >
+                  {playerSymbol}
+                </button>
               </li>
             ))}
           </ol>
