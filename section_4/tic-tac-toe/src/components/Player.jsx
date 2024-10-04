@@ -1,12 +1,16 @@
 import { useState } from "react";
 
-const Player = ({ initialName, symbol, isActive }) => {
+const Player = ({ initialName, symbol, isActive, onChangeName }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [playerName, setPlayerName] = useState(initialName);
 
   const handleEditClick = () => {
     // 버튼 클릭 시 마다, isEditing의 상태가 변함
     setIsEditing((prevEdit) => !prevEdit);
+
+    if (isEditing) {
+      onChangeName(symbol, playerName);
+    };
   };
 
   const handleChangeName = (event) => {

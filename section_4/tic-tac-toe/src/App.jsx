@@ -11,27 +11,20 @@ const deriveActivePlayer = (gameTurns) => {
   let currentPlayer = "X";
   if (gameTurns.length > 0 && gameTurns[0].player === "X") {
     currentPlayer = "O";
-  }
+  };
 
   return currentPlayer;
 };
 
-const initialGameBoard = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
-
-const App = () => {
-  const [gameTurns, setGameTurns] = useState([]);
-  // const [activePlayer, setActivePlayer] = useState("X");
-  // const [Winner, setWinner] = useState(false)
-
-  const activePlayer = deriveActivePlayer(gameTurns);
-
+const deriveGameBoard = (gameTurns) => {
   // gameBoard는 계산된 값
   // 어떠한 상태에서 파생된 것 (App.jsx의 gameTurns)
-  let gameBoard = initialGameBoard;
+
+  // 게임 재시작하면 배열이 초기화되지 않는다.
+  // initialGameBoard를 깊은 복사로 복사한다.
+  // 이후 내부 배열을 모두 작성한다.
+  // let gameBoard = INITIAL_GAME_BOARD; 수정 전
+  let gameBoard = [...INITIAL_GAME_BOARD.map((arr) => [...arr])]; // 수정 후
 
   // 제어하는 상태의 수는 최소화하면서
   // 가능한 많은 정보와 많은 값을 파생시키는 것
@@ -40,8 +33,12 @@ const App = () => {
     const { row, col } = square;
 
     gameBoard[row][col] = player;
-  }
+  };
 
+  return gameBoard;
+};
+
+const deriveWinner = (gameBoard, players) => {
   // 우승 조건
   let winner;
   for (const combination of WINNING_COMBINATIONS) {
@@ -55,16 +52,38 @@ const App = () => {
       firstSquareSymbol === secondSquareSymbol &&
       firstSquareSymbol === thridSquareSymbol
     ) {
-      winner = firstSquareSymbol;
+      winner = players[firstSquareSymbol];
     }
   }
 
+  return winner;
+};
+
+const PLAYERS = {
+  X: "Player 1",
+  O: "Player 2",
+}
+
+const INITIAL_GAME_BOARD = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+];
+
+const App = () => {
+  const [gameTurns, setGameTurns] = useState([]);
+
+  // 승리했을 경우, 기호가 아닌 플레이어 이름을 보여주기 위한 useState
+  const [players, setPlayers] = useState(PLAYERS);
+
+  const activePlayer = deriveActivePlayer(gameTurns);
+  const gameBoard = deriveGameBoard(gameTurns);
+  const winner = deriveWinner(gameBoard, players);
   const hasDraw = gameTurns.length === 9 && !winner;
 
   // 게임 순서
   // 최근 순서가 X 였으면, 이번엔 O
   const handlePlayer = (rowIdx, colIdx) => {
-    // setActivePlayer((curPlayer) => (curPlayer === "X" ? "O" : "X"));
     setGameTurns((prevTurns) => {
       const currentPlayer = deriveActivePlayer(prevTurns);
 
@@ -78,23 +97,42 @@ const App = () => {
     });
   };
 
+  // 게임 재시작 함수
+  const handleRestart = () => {
+    setGameTurns([]);
+  };
+
+  // 심볼에 저장된 내용에 따라 새로운 이름으로 변경
+  const handleChangeName = (symbol, newName) => {
+    setPlayers((prevPlayer) => {
+      return {
+        ...prevPlayer,
+        [symbol]: newName,
+      };
+    });
+  };
+
   return (
     <main>
       <div id="game-container">
         {/* 본인 차례인 경우, 이름 주위를 강조하는 CSS 추가 */}
         <ol id="players" className="highlight-player">
           <Player
-            initialName="Player 1"
+            initialName={PLAYERS.X}
             symbol="X"
             isActive={activePlayer === "X"}
+            onChangeName={handleChangeName}
           />
           <Player
-            initialName="Player 2"
+            initialName={PLAYERS.O}
             symbol="O"
             isActive={activePlayer === "O"}
+            onChangeName={handleChangeName}
           />
         </ol>
-        {(winner || hasDraw) && <GameOver winner={winner}/>}
+        {(winner || hasDraw) && (
+          <GameOver winner={winner} onRestart={handleRestart} />
+        )}
         <GameBoard onPlayer={handlePlayer} board={gameBoard} />
       </div>
       <Log turns={gameTurns} />
