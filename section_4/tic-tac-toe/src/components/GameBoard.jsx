@@ -6,15 +6,17 @@ const initialGameBoard = [
   [null, null, null],
 ];
 
-const GameBoard = () => {
+const GameBoard = ({onPlayer, activePlayerSymbol}) => {
   const [gameBoard, setGameBoard] = useState(initialGameBoard);
 
   const handleChangeBoard = (rowIdx, colIdx) => {
     setGameBoard((prevBoard) => {
       const updateGameBoard = [...prevBoard.map(innerArr => [...innerArr])];
-      updateGameBoard[rowIdx][colIdx] = "X"
+      updateGameBoard[rowIdx][colIdx] = activePlayerSymbol;
       return updateGameBoard;
     });
+
+    onPlayer();
   };
 
   return (
