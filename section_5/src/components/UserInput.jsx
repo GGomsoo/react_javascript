@@ -1,20 +1,4 @@
-import { useState } from "react";
-
-const UserInput = () => {
-  const [userInput, setUserInput] = useState({
-    initialInvestment: 10000,
-    annualInvestment: 1200,
-    expectedReturn: 6,
-    duration: 10,
-  });
-
-  const handleChange = (inputId, newValue) => {
-    setUserInput((prevInput) => ({
-      ...prevInput,
-      [inputId]: newValue,
-    }));
-  };
-
+const UserInput = (props) => {
   return (
     <section id="user-input">
       <div className="input-group">
@@ -22,18 +6,18 @@ const UserInput = () => {
           <label htmlFor="">초기 투자액</label>
           <input
             type="number"
-            value={userInput.initialInvestment}
+            value={props.userInput.initialInvestment}
             required
-            onChange={(e) => handleChange("initialInvestment", e.target.value)}
+            onChange={(e) => props.onChange("initialInvestment", e.target.value)}
           />
         </p>
         <p>
           <label htmlFor="">연간 투자량</label>
           <input
             type="number"
-            value={userInput.annualInvestment}
+            value={props.userInput.annualInvestment}
             required
-            onChange={(e) => handleChange("annualInvestment", e.target.value)}
+            onChange={(e) => props.onChange("annualInvestment", e.target.value)}
           />
         </p>
       </div>
@@ -43,18 +27,18 @@ const UserInput = () => {
           <label htmlFor="">예상 수익</label>
           <input
             type="number"
-            value={userInput.expectedReturn}
+            value={props.userInput.expectedReturn}
             required
-            onChange={(e) => handleChange("expectedReturn", e.target.value)}
+            onChange={(e) => props.onChange("expectedReturn", e.target.value)}
           />
         </p>
         <p>
           <label htmlFor="">투자 기간</label>
           <input
             type="number"
-            value={userInput.duration}
+            value={props.userInput.duration}
             required
-            onChange={(e) => handleChange("duration", e.target.value)}
+            onChange={(e) => props.onChange("duration", e.target.value)}
           />
         </p>
       </div>
