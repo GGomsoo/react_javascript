@@ -12,10 +12,12 @@ function App() {
     duration: 10,
   });
 
+  const validInput = userInput.duration >= 1;
+
   const handleChange = (inputId, newValue) => {
     setUserInput((prevInput) => ({
       ...prevInput,
-      [inputId]: newValue,
+      [inputId]: +newValue,
     }));
   };
 
@@ -23,7 +25,11 @@ function App() {
     <>
       <Header />
       <UserInput userInput={userInput} onChange={handleChange} />
-      <Results input={userInput}/>
+      {validInput ? (
+        <Results input={userInput} />
+      ) : (
+        <p className="center">올바른 값 입력바람</p>
+      )}
     </>
   );
 }
