@@ -11,7 +11,7 @@ const TimerChallenge = (props) => {
   const handleStart = () => {
     timer.current = setTimeout(() => {
       setTimerExpired(true);
-      dialog.current.showModal();
+      dialog.current.open(); // 여기서 선언한 "open" method는 모달창에서 정의한 method
     }, props.targetTime * 1000);
 
     setTimerStarted(true);
