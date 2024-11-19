@@ -2,13 +2,16 @@ import { useState, useRef } from "react";
 import ResultModal from "./ResultModal";
 
 const TimerChallenge = (props) => {
-  const timer = useRef();
+  const timer = useRef(); // timer 관련 참조
+  const dialog = useRef(); // modal 창 관련 참조
+
   const [timerStarted, setTimerStarted] = useState(false); // 타이머 시작여부
   const [timerExpired, setTimerExpired] = useState(false); // 타이머 만료
 
   const handleStart = () => {
     timer.current = setTimeout(() => {
       setTimerExpired(true);
+      dialog.current.showModal();
     }, props.targetTime * 1000);
 
     setTimerStarted(true);
@@ -20,7 +23,7 @@ const TimerChallenge = (props) => {
 
   return (
     <>
-    {timerExpired && <ResultModal targetTime={props.targetTime} result="lost"/>}
+    <ResultModal ref={dialog} targetTime={props.targetTime} result="lost"/>
       <section className="challenge">
         <h2>{props.title}</h2>
         {timerExpired && <p>You lost!</p>}
