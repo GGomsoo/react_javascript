@@ -1,6 +1,10 @@
 import { forwardRef, useImperativeHandle, useRef } from "react"; 
 // forwardRef: 참조를 컴포넌트 -> 컴포넌트로 전달
 
+import { createPortal } from "react-dom";
+// elemets에서 출력의 위치를 바꿔준다.
+// 주로 모달에 사용된다.
+
 const ResultModal = forwardRef((props, ref) => {
   const dialog = useRef();
 
@@ -16,9 +20,9 @@ const ResultModal = forwardRef((props, ref) => {
       }
     }
   });
-  return (
+  return createPortal(
     // "dialog" tag를 "div" 로 변경해도 작동에 문제가 없어졌다.
-    <dialog ref={dialog} className="result-modal" onClose={props.OnReset}>
+    <dialog ref={dialog} className="result-modal" onClose={props.onReset}>
       {userLost && <h2>You lost</h2>}
       {!userLost && <h2>Your score: {score}</h2>}
       <p>
@@ -30,7 +34,8 @@ const ResultModal = forwardRef((props, ref) => {
       <form method="dialog" onSubmit={props.onReset}>
         <button>Close</button>
       </form>
-    </dialog>
+    </dialog>,
+    document.getElementById("modal")
   );
 });
 
