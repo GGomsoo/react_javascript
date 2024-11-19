@@ -12,7 +12,7 @@ export default function Player() {
 
   const handleClick = () => {
     setEnteredPlayerName(playerName.current.value);
-    console.log(playerName.current.value)
+    playerName.current.value = "" // 이름 설정 후, 입력창 초기화
   };
 
   return (
