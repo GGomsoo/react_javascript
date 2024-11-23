@@ -67,10 +67,15 @@ function App() {
     });
   }
 
+  const ctxValue = {
+    items: shoppingCart.items,
+    addItemToCart: handleAddItemToCart,
+  };
+
   return (
     // shopping-cart-context.jsx에 기본값을 설정해 두었더라도
     // Provider에 value 속성과 context 값을 추가해줘야 한다.
-    <CartContext.Provider value={{items: []}}>
+    <CartContext.Provider value={ctxValue}>
       <Header
         cart={shoppingCart}
         onUpdateCartItemQuantity={handleUpdateCartItemQuantity}
