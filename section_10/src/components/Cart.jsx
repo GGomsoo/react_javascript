@@ -6,6 +6,9 @@ export default function Cart() {
   // 리액트가 컴포넌트 함수를 재실행 하는 이유는
   // 새로운 UI를 만들어낼 수 있게 하기 위해서
   const { items, updateItemQuantity } = useContext(CartContext);
+
+  // 장바구니에 담긴 물품들의 총 가격
+  // 값을 하나로 줄이는 자체가 아래 reduce의 역할(기능)
   const totalPrice = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0

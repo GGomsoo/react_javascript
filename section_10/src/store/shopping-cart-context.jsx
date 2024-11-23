@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useReducer } from "react";
 import { DUMMY_PRODUCTS } from "../dummy-products.js";
 
 export const CartContext = createContext({
@@ -7,11 +7,23 @@ export const CartContext = createContext({
   updateItemQuantity: () => {},
 });
 
-const CartContextProvider = ({children}) => {
+const shoppingCartReducer = (state, action) => {
+  return state;
+};
+
+const CartContextProvider = ({ children }) => {
+  const [shoppingCartState, shoppingCartDispatch] = useReducer(
+    shoppingCartReducer,
+    {
+      items: [],
+    }
+  );
+
   const [shoppingCart, setShoppingCart] = useState({
     items: [],
   });
 
+  // 장바구니 추가
   function handleAddItemToCart(id) {
     setShoppingCart((prevShoppingCart) => {
       const updatedItems = [...prevShoppingCart.items];
@@ -43,6 +55,7 @@ const CartContextProvider = ({children}) => {
     });
   }
 
+  // 장바구니 수량 수정
   function handleUpdateCartItemQuantity(productId, amount) {
     setShoppingCart((prevShoppingCart) => {
       const updatedItems = [...prevShoppingCart.items];
@@ -69,14 +82,14 @@ const CartContextProvider = ({children}) => {
   }
 
   const ctxValue = {
-    items: shoppingCart.items,
+    items: shoppingCartState.items,
     addItemToCart: handleAddItemToCart,
     updateItemQuantity: handleUpdateCartItemQuantity,
   };
 
-  return <CartContext.Provider value={ctxValue}>
-    {children}
-  </CartContext.Provider>
+  return (
+    <CartContext.Provider value={ctxValue}>{children}</CartContext.Provider>
+  );
 };
 
 export default CartContextProvider;
