@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Places from "./components/Places.jsx";
 import { AVAILABLE_PLACES } from "./data.js";
@@ -14,19 +14,19 @@ function App() {
   const [availablePlaces, setAvailablePlaces] = useState([]);
   const [pickedPlaces, setPickedPlaces] = useState([]);
 
-  navigator.geolocation.getCurrentPosition((position) => {
-    const sortedPlaces = sortPlacesByDistance(
-      AVAILABLE_PLACES,
-      position.coords.latitude,
-      position.coords.longitude
-    );
+  // 의존성의 변화했을 경우에만 useEffect 재실행된다.
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const sortedPlaces = sortPlacesByDistance(
+        AVAILABLE_PLACES,
+        position.coords.latitude,
+        position.coords.longitude
+      );
 
-    // 부수 효과의 잘못된 사용 예시
-    // 컴포넌트 함수가 재실행된다면?
-    // 사용자 위치 파악 다시 진행 -> 상태 설정
-    // 무한 루프에 빠지게 된다
-    setAvailablePlaces(sortedPlaces);
-  });
+      setAvailablePlaces(sortedPlaces);
+    });
+  }, []);
+
 
   function handleStartRemovePlace(id) {
     modal.current.open();
@@ -80,7 +80,8 @@ function App() {
         />
         <Places
           title="Available Places"
-          places={AVAILABLE_PLACES}
+          places={availablePlaces}
+          fallbackText="Sorting places by distance..."
           onSelectPlace={handleSelectPlace}
         />
       </main>
