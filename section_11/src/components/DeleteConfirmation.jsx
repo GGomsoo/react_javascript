@@ -1,20 +1,36 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+const TIMER = 3000;
 
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
+  const [remainingTime, setRemainingTime] = useState(TIMER);
+
   useEffect(() => {
-    // 3초 후에 자동으로 modal창이 닫기면서 yes 처리된다.
-    console.log("set timer")
-    const timer = setTimeout(() => {
-      onConfirm();
-    }, 3000);
+    const interval = console.log("INTERVAL CHECK")
+    setInterval(() => {
+      setRemainingTime((prevTime) => prevTime - 10);
+    }, 10);
 
     return () => {
-      console.log("clean up timer")
+      console.log("END INTERVAL")
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    // 3초 후에 자동으로 modal창이 닫기면서 yes 처리된다.
+    console.log("SET TIMER");
+    const timer = setTimeout(() => {
+      onConfirm();
+    }, TIMER);
+
+    return () => {
+      console.log("CLEAN UP TIMER");
       clearTimeout(timer);
-    }
+    };
     // 종속성으로 함수를 추가하는 경우에는
     // 무한 루프를 발생시킬 가능성이 있다.
-  }, [onConfirm])
+  }, [onConfirm]);
 
   return (
     <div id="delete-confirmation">
@@ -28,6 +44,7 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
           Yes
         </button>
       </div>
+      <progress value={remainingTime} max={TIMER} />
     </div>
   );
 }
