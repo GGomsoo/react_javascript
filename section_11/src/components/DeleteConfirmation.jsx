@@ -14,7 +14,7 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
     }
     // 종속성으로 함수를 추가하는 경우에는
     // 무한 루프를 발생시킬 가능성이 있다.
-  }, [])
+  }, [onConfirm])
 
   return (
     <div id="delete-confirmation">

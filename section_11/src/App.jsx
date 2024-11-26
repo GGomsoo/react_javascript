@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 import Places from "./components/Places.jsx";
 import { AVAILABLE_PLACES } from "./data.js";
@@ -63,17 +63,22 @@ function App() {
     }
   }
 
-  function handleRemovePlace() {
+  // useCallback 훅
+  // useEffect와 비슷하지만, 둘러싼 함수를 return 한다는 차이점이 있다.
+  // 주변 컴포넌트 함수가 재실행 될 때 마다 재생성 되지않는 방식
+  const handleRemovePlace = useCallback(function handleRemovePlace() {
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
     setModalIsOpen(false);
+    
     const storedIds = JSON.parse(localStorage.getItem("selectedPlaces")) || [];
     localStorage.setItem(
       "selectedPlaces",
       JSON.stringify(storedIds.filter((id) => id !== selectedPlace.current))
     );
-  }
+  }, []);
+  
 
   return (
     <>
