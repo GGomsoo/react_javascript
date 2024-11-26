@@ -40,7 +40,7 @@ function App() {
   }
 
   function handleStopRemovePlace() {
-    setModalIsOpen(false)
+    setModalIsOpen(false);
   }
 
   function handleSelectPlace(id) {
@@ -67,7 +67,7 @@ function App() {
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
-    setModalIsOpen(false)
+    setModalIsOpen(false);
     const storedIds = JSON.parse(localStorage.getItem("selectedPlaces")) || [];
     localStorage.setItem(
       "selectedPlaces",
