@@ -1,22 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import ProgressBar from "./ProgressBar.jsx";
 
 const TIMER = 3000;
 
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
-  const [remainingTime, setRemainingTime] = useState(TIMER);
-
-  useEffect(() => {
-    const interval = console.log("INTERVAL CHECK")
-    setInterval(() => {
-      setRemainingTime((prevTime) => prevTime - 10);
-    }, 10);
-
-    return () => {
-      console.log("END INTERVAL")
-      clearInterval(interval);
-    };
-  }, []);
-
+  
   useEffect(() => {
     // 3초 후에 자동으로 modal창이 닫기면서 yes 처리된다.
     console.log("SET TIMER");
@@ -44,7 +32,7 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
           Yes
         </button>
       </div>
-      <progress value={remainingTime} max={TIMER} />
+      <ProgressBar timer={TIMER}/>
     </div>
   );
 }
