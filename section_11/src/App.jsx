@@ -11,6 +11,7 @@ import { sortPlacesByDistance } from "./loc.js";
 function App() {
   const modal = useRef();
   const selectedPlace = useRef();
+  const [availablePlaces, setAvailablePlaces] = useState([]);
   const [pickedPlaces, setPickedPlaces] = useState([]);
 
   navigator.geolocation.getCurrentPosition((position) => {
@@ -19,6 +20,12 @@ function App() {
       position.coords.latitude,
       position.coords.longitude
     );
+
+    // 부수 효과의 잘못된 사용 예시
+    // 컴포넌트 함수가 재실행된다면?
+    // 사용자 위치 파악 다시 진행 -> 상태 설정
+    // 무한 루프에 빠지게 된다
+    setAvailablePlaces(sortedPlaces);
   });
 
   function handleStartRemovePlace(id) {
