@@ -23,8 +23,9 @@ export default function CounterHistory({ history }) {
 
   return (
     <ol>
-      {history.map((count, index) => (
-        <HistoryItem key={index} count={count} />
+      {/* 특정 값과 연결된 속성 값을 key 값으로 사용해야 한다. */}
+      {history.map((count) => (
+        <HistoryItem key={count.id} count={count.value} />
       ))}
     </ol>
   );
