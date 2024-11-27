@@ -27,6 +27,10 @@ function isPrime(number) {
   return true;
 }
 
+// 이전과 똑같은 counter 값을 입력하는게 아닌 이상
+// memo는 여전히 유용하다.
+// 하지만, 다 다른 값을 사용할거기 때문에 memo가 엄청 유용하진 않다.
+// 아래 상황에서는 memo를 제거해도 된다.
 const Counter = memo(function Counter({ initialCount }) {
   log('<Counter /> rendered', 1);
   const initialCountIsPrime = isPrime(initialCount);
