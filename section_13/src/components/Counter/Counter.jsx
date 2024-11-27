@@ -1,4 +1,4 @@
-import { useState, memo } from 'react';
+import { useState, memo, useCallback } from 'react';
 
 import IconButton from '../UI/IconButton.jsx';
 import MinusIcon from '../UI/Icons/MinusIcon.jsx';
@@ -37,13 +37,16 @@ const Counter = memo(function Counter({ initialCount }) {
 
   const [counter, setCounter] = useState(initialCount);
 
-  function handleDecrement() {
+  // 중첩 함수
+  // Counter 컴포넌트 함수가 실행될 때 마다 다시 실행된다.
+  // useCallback을 통해 불필요한 재실행을 막는다
+  const handleDecrement = useCallback(function handleDecrement() {
     setCounter((prevCounter) => prevCounter - 1);
-  }
+  }, []);
 
-  function handleIncrement() {
+  const handleIncrement = useCallback(function handleIncrement() {
     setCounter((prevCounter) => prevCounter + 1);
-  }
+  }, []);
 
   return (
     <section className="counter">
