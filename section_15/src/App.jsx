@@ -53,6 +53,16 @@ function App() {
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current.id)
     );
 
+    // 선택한 장소를 삭제하는 try / catch
+    try {
+      await updateUserPlaces(
+        userPlaces.filter((place) => place.id !== selectedPlace.current.id)
+      );
+    } catch (err) {
+      setUserPlaces(userPlaces);
+      setErrorUpdate({message: err.message || "Failed to delete place."})
+    }
+
     setModalIsOpen(false);
   }, []);
 
