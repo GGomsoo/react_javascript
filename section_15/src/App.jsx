@@ -1,17 +1,19 @@
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback } from "react";
 
-import Places from './components/Places.jsx';
-import Modal from './components/Modal.jsx';
-import DeleteConfirmation from './components/DeleteConfirmation.jsx';
-import logoImg from './assets/logo.png';
-import AvailablePlaces from './components/AvailablePlaces.jsx';
+import Places from "./components/Places.jsx";
+import Modal from "./components/Modal.jsx";
+import DeleteConfirmation from "./components/DeleteConfirmation.jsx";
+import logoImg from "./assets/logo.png";
+import AvailablePlaces from "./components/AvailablePlaces.jsx";
 
-import {updateUserPlaces} from "./http.js"
+import { updateUserPlaces } from "./http.js";
+import Error from "./components/Error.jsx";
 
 function App() {
   const selectedPlace = useRef();
 
   const [userPlaces, setUserPlaces] = useState([]);
+  const [errorUpdate, setErrorUpdate] = useState();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -25,6 +27,8 @@ function App() {
   }
 
   async function handleSelectPlace(selectedPlace) {
+    // await updateUserPlaces([selectedPlace, ...userPlaces]);
+
     setUserPlaces((prevPickedPlaces) => {
       if (!prevPickedPlaces) {
         prevPickedPlaces = [];
@@ -38,7 +42,9 @@ function App() {
     try {
       await updateUserPlaces([selectedPlace, ...userPlaces]);
     } catch (err) {
-      
+      // 새로운 장소 추가를 실패하는 경우, 추가 전 목록으로 업데이트
+      setUserPlaces(userPlaces);
+      setErrorUpdate({ message: err.message || "Failed to fetch places.." });
     }
   }
 
@@ -50,8 +56,21 @@ function App() {
     setModalIsOpen(false);
   }, []);
 
+  const handleError = () => {
+    setErrorUpdate(null);
+  };
+
   return (
     <>
+      <Modal open={errorUpdate} onClose={handleError}>
+        {errorUpdate && (
+          <Error
+            title="An error occurred!"
+            message={errorUpdate.message}
+            onConfirm={handleError}
+          />
+        )}
+      </Modal>
       <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
