@@ -4,12 +4,15 @@ import { useEffect, useState } from 'react';
 export default function AvailablePlaces({ onSelectPlace }) {
   const [availablePlaces, setAvailablePlaces] = useState([]);
 
+  // async, await, useEffect 이용한 비동기 API 통신
   useEffect(() => {
-    fetch("http://localhost:3000/places").then((res) => {
-      return res.json()
-    }).then((resData) => {
+    const fetchPlaces = async () => {
+      const response = await fetch("http://localhost:3000/places")      
+      const resData = await response.json()
       setAvailablePlaces(resData.places)
-    })
+    }
+
+    fetchPlaces()
   }, []);
 
   return (
