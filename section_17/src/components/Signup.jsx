@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 export default function Signup() {
+  const [passwordNotEqual, setPasswordNotEqual] = useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -12,12 +16,17 @@ export default function Signup() {
     // const enteredPassword = fd.get("password")
 
     // 체크박스의 모든 값들을 불러온다
-    const acquisitionChannel = fd.getAll("acquisition")
+    const acquisitionChannel = fd.getAll("acquisition");
 
     // 모든 입력창과 그에 속한 값들의 배열을 제공한다
     const data = Object.fromEntries(fd.entries());
-    data.acquisitionChannel = acquisitionChannel
+    data.acquisitionChannel = acquisitionChannel;
     console.log(data);
+
+    if (data.password !== data["confirm-password"]) {
+      setPasswordNotEqual(true)
+      return;
+    };
 
     // 제출 후 입력상태 초기화
     event.target.reset();
@@ -30,13 +39,13 @@ export default function Signup() {
 
       <div className="control">
         <label htmlFor="email">Email</label>
-        <input id="email" type="email" name="email" required/>
+        <input id="email" type="email" name="email" required />
       </div>
 
       <div className="control-row">
         <div className="control">
           <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" />
+          <input id="password" type="password" name="password" required />
         </div>
 
         <div className="control">
@@ -48,6 +57,7 @@ export default function Signup() {
             required
           />
         </div>
+        <div className="control-error">{passwordNotEqual && <p>Passwords must match.</p>}</div>
       </div>
 
       <hr />
@@ -55,12 +65,12 @@ export default function Signup() {
       <div className="control-row">
         <div className="control">
           <label htmlFor="first-name">First Name</label>
-          <input type="text" id="first-name" name="first-name" required/>
+          <input type="text" id="first-name" name="first-name" required />
         </div>
 
         <div className="control">
           <label htmlFor="last-name">Last Name</label>
-          <input type="text" id="last-name" name="last-name" required/>
+          <input type="text" id="last-name" name="last-name" required />
         </div>
       </div>
 
@@ -105,8 +115,13 @@ export default function Signup() {
 
       <div className="control">
         <label htmlFor="terms-and-conditions">
-          <input type="checkbox" id="terms-and-conditions" name="terms" required/>I
-          agree to the terms and conditions
+          <input
+            type="checkbox"
+            id="terms-and-conditions"
+            name="terms"
+            required
+          />
+          I agree to the terms and conditions
         </label>
       </div>
 
