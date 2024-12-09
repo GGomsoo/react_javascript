@@ -6,9 +6,15 @@ export default function Login() {
     password: "",
   });
 
+  // 입력창 focus 해제 여부 관리하는 상태
+  const [didEdit, seteDidEdit] = useState({
+    email: false,
+    password: false
+  })
+
   // 이메일에 @가 포함되어 있는지에 따라 true, false
   // 없으면 true
-  const emailIsInvalid = entered.email !== "" && !entered.email.includes("@");
+  const emailIsInvalid = didEdit.email && !entered.email.includes("@");
 
   const handleSubmit = (e) => {
     // React 에서의 양식 제출 관리 방법
@@ -28,6 +34,20 @@ export default function Login() {
       ...prevValue,
       [identifier]: value,
     }));
+
+    // 입력중엔 focus 되어있다
+    seteDidEdit(prevEdit => ({
+      ...prevEdit,
+      [identifier]: false,
+    }))
+  };
+
+  // focus를 잃은 경우
+  const handleInputBlur = (identifier) => {
+    seteDidEdit(prevEdit => ({
+      ...prevEdit,
+      [identifier]: true
+    }))
   };
 
   return (
@@ -41,6 +61,7 @@ export default function Login() {
             id="email"
             type="email"
             name="email"
+            onBlur={() => handleInputBlur("email")}
             onChange={(e) => handleChangeInput("email", e.target.value)}
             value={entered.email}
           />
