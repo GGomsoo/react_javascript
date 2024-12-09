@@ -1,55 +1,32 @@
-import { useState } from "react";
 import Input from "./Input";
+import { isEmail, isNotEmpty, hasMinLength } from "../util/validation.js";
+import useInput from "../hooks/useInput.js";
 
 export default function Login() {
-  const [entered, setEntered] = useState({
-    email: "",
-    password: "",
-  });
+  const {
+    value: emailValue,
+    handleChangeInput: handleChangeEmail,
+    handleInputBlur: handleCEmailBlur,
+    hasError: emailHasError,
+  } = useInput("", (value) => isEmail(value) && isNotEmpty(value));
 
-  // 입력창 focus 해제 여부 관리하는 상태
-  const [didEdit, seteDidEdit] = useState({
-    email: false,
-    password: false,
-  });
-
-  // 이메일에 @가 포함되어 있는지에 따라 true, false
-  // 없으면 true
-  const emailIsInvalid = didEdit.email && !entered.email.includes("@");
-  const passwordInvalid = didEdit.password && entered.password.trim().length < 6;
+  const {
+    value: passwordValue,
+    handleChangeInput: handleChangePW,
+    handleInputBlur: handlePWBlur,
+    hasError: passwordHasError,
+  } = useInput("", (value) => hasMinLength(value, 6));
 
   const handleSubmit = (e) => {
     // React 에서의 양식 제출 관리 방법
     // 브라우저의 기본 구성이 일어나지 않게 한다
     e.preventDefault();
-    console.log(entered);
 
-    // 상태를 통해 입력값을 관리할 때, 초기화 하는 방법
-    setEntered({
-      email: "",
-      password: "",
-    });
-  };
+    if (emailHasError || passwordHasError) {
+      return;
+    }
 
-  const handleChangeInput = (identifier, value) => {
-    setEntered((prevValue) => ({
-      ...prevValue,
-      [identifier]: value,
-    }));
-
-    // 입력중엔 focus 되어있다
-    seteDidEdit((prevEdit) => ({
-      ...prevEdit,
-      [identifier]: false,
-    }));
-  };
-
-  // focus를 잃은 경우
-  const handleInputBlur = (identifier) => {
-    seteDidEdit((prevEdit) => ({
-      ...prevEdit,
-      [identifier]: true,
-    }));
+    console.log(emailValue, passwordValue);
   };
 
   return (
@@ -62,10 +39,10 @@ export default function Login() {
           id="email"
           type="email"
           name="email"
-          onBlur={() => handleInputBlur("email")}
-          onChange={(e) => handleChangeInput("email", e.target.value)}
-          value={entered.email}
-          error={emailIsInvalid && "Please enter a valid email"}
+          onBlur={handleCEmailBlur}
+          onChange={handleChangeEmail}
+          value={emailValue}
+          error={emailHasError && "Please enter a valid email"}
         />
 
         <Input
@@ -73,10 +50,10 @@ export default function Login() {
           id="password"
           type="password"
           name="password"
-          onBlur={() => handleInputBlur("password")}
-          onChange={(e) => handleChangeInput("password", e.target.value)}
-          value={entered.password}
-          error={passwordInvalid && "Please enter a valid password"}
+          onBlur={handlePWBlur}
+          onChange={handleChangePW}
+          value={passwordValue}
+          error={passwordHasError && "Please enter a valid password"}
         />
       </div>
 
