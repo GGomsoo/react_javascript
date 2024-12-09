@@ -18,6 +18,9 @@ export default function Signup() {
     const data = Object.fromEntries(fd.entries());
     data.acquisitionChannel = acquisitionChannel
     console.log(data);
+
+    // 제출 후 입력상태 초기화
+    event.target.reset();
   };
 
   return (
@@ -107,6 +110,10 @@ export default function Signup() {
       </div>
 
       <p className="form-actions">
+        {/* type 종류: button, submit, reset */}
+        {/* button: 단순 버튼의 역할 */}
+        {/* submit: 제출 */}
+        {/* reset: 초기화 */}
         <button type="reset" className="button button-flat">
           Reset
         </button>

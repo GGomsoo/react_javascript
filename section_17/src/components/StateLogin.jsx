@@ -11,6 +11,12 @@ export default function Login() {
     // 브라우저의 기본 구성이 일어나지 않게 한다
     e.preventDefault();
     console.log(entered)
+
+    // 상태를 통해 입력값을 관리할 때, 초기화 하는 방법
+    setEntered({
+      email: "",
+      password: "",
+    })
   };
 
   const handleChangeInput = (identifier, value) => {
