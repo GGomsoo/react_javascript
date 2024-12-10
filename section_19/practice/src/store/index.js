@@ -20,13 +20,15 @@ const counterSlice = createSlice({
     // redux-toolkit는 내부적으로 immer 이라는 패키지를 사용하는데
     // 자동으로 원래 상태를 복제, 새로운 상태 객체를 생성
     increment(state) {
-      state.counter ++;
+      state.counter++;
     },
     decrement(state) {
-      state.counter --;
+      state.counter--;
     },
     increase(state, action) {
-      state.counter = state.counter + action.amount;
+      // redux-toolkit 으로 변경 후
+      // action.amount -> action.payload로 변경
+      state.counter = state.counter + action.payload;
     },
     toggleCounter(state) {
       state.showCounter = !state.showCounter;
@@ -48,4 +50,5 @@ const store = configureStore({
   reducer: counterSlice.reducer,
 });
 
+export const counterActions = counterSlice.actions;
 export default store;
