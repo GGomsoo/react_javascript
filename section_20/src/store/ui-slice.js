@@ -8,7 +8,7 @@ const uiSlice = createSlice({
       state.cartIsVisible = !state.cartIsVisible;
     }
   }
-})
+});
 
 export const uiActions = uiSlice.actions;
 export default uiSlice.reducer;
