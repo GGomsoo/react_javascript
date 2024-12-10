@@ -1,5 +1,4 @@
-import { createStore } from "redux";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, configureStore } from "@reduxjs/toolkit";
 
 const initialState = { counter: 0, showCounter: true }
 
@@ -7,7 +6,7 @@ const initialState = { counter: 0, showCounter: true }
 // 전역 상태의 slice를 미리 생성한다
 // 모든 slice는 이름이 있어야한다.
 // 초기 상태를 설정 해야한다.
-createSlice({
+const counterSlice = createSlice({
   name: "counter",
   initialState: initialState,
   reducers: {
@@ -35,38 +34,18 @@ createSlice({
   }
 });
 
-const counterReducer = (state = initialState, action) => {
-  if (action.type === "increment") {
-    return {
-      counter: state.counter + 1,
-      showCounter: state.showCounter,
-    };
-  }
+// createStore처럼 store를 생성한다
+// 여러 개의 reducer를 하나의 reducer로 합칠 수 있다
+// configureStore에 객체를 전달 ( 설정 객체 )
+// 리덕스에는 전역 상태를 담당하는 주요 reducer 하나만 있어야한다
 
-  if (action.type === "increase") {
-    return {
-      counter: state.counter + action.amount,
-      showCounter: state.showCounter,
-    };
-  }
+// 상태 slice가 여러개라면 reducer map을 형성
+// const store = configureStore({
+//   reducer: { counter: counterSlice.reducer},
+// });
 
-  if (action.type === "decrement") {
-    return {
-      counter: state.counter - 1,
-      showCounter: state.showCounter,
-    };
-  }
-
-  if (action.type === "toggle") {
-    return {
-      counter: state.counter,
-      showCounter: !state.showCounter,
-    }
-  }
-
-  return state;
-};
-
-const store = createStore(counterReducer);
+const store = configureStore({
+  reducer: counterSlice.reducer,
+});
 
 export default store;
