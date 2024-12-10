@@ -24,6 +24,10 @@ const Counter = () => {
     dispatch(counterActions.decrement())
   };
 
+  const handleReset = () => {
+    dispatch(counterActions.reset())
+  }
+
   const toggleCounterHandler = () => {
     dispatch(counterActions.toggleCounter())
   };
@@ -44,6 +48,7 @@ const Counter = () => {
         <button onClick={handleIncrease}>+5</button>
         <button onClick={handleDecrement}>-</button>
       </div>
+      <button onClick={handleReset}>Reset Counter</button>
       <button onClick={toggleCounterHandler}>Toggle Counter</button>
     </main>
   );

@@ -30,6 +30,9 @@ const counterSlice = createSlice({
       // action.amount -> action.payload로 변경
       state.counter = state.counter + action.payload;
     },
+    reset(state) {
+      state.counter = 0;
+    },
     toggleCounter(state) {
       state.showCounter = !state.showCounter;
     },
