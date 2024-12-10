@@ -3,7 +3,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import classes from './Counter.module.css';
 // import { useState } from "react";
-import { counterActions } from "../store/index.js"
+import { counterActions } from "../store/counter-slice.js";
 
 const Counter = () => {
 
