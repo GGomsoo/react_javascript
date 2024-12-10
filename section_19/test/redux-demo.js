@@ -7,10 +7,22 @@ const redux = require("redux");
 // 새로운 상태 객체를 return 해야한다
 
 // 처음 실행할 때, 보조 기본값이 있어야 한다
+// action의 type이 증가인 경우 counter + 1을 return
+// 다른 type인 경우 기존 state를 return
 const counterReducer = (state = {counter: 0}, action) => {
-  return {
-    counter: state.counter + 1
+  if (action.type === "increment") {
+    return {
+      counter: state.counter + 1
+    }
   }
+
+  if (action.type === "decrement") {
+    return {
+      counter: state.counter - 1
+    }
+  }
+
+  return state;
 };
 
 
@@ -37,3 +49,4 @@ store.subscribe(counterSubscriber);
 
 // dispatch = action을 발송하는 method
 store.dispatch({ type: "increment" })
+store.dispatch({ type: "decrement" })
