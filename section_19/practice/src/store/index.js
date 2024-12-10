@@ -1,6 +1,6 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
 
-const initialState = { counter: 0, showCounter: true }
+const initialCountState = { counter: 0, showCounter: true, }
 
 // 객체를 인자로 생성한다
 // 전역 상태의 slice를 미리 생성한다
@@ -8,7 +8,7 @@ const initialState = { counter: 0, showCounter: true }
 // 초기 상태를 설정 해야한다.
 const counterSlice = createSlice({
   name: "counter",
-  initialState: initialState,
+  initialState: initialCountState,
   reducers: {
     // action이 필요가 없다
     // 어떤 액션을 했느냐에 따라 method가 자동으로 호출
@@ -36,6 +36,22 @@ const counterSlice = createSlice({
   }
 });
 
+const initialAuthState = {
+  isAuthenticated: false,
+}
+const authSlice = createSlice({
+  name: "auth",
+  initialState: initialAuthState,
+  reducers: {
+    login(state) {
+      state.isAuthenticated = true;
+    },
+    logout(state) {
+      state.isAuthenticated = false;
+    },
+  }
+})
+
 // createStore처럼 store를 생성한다
 // 여러 개의 reducer를 하나의 reducer로 합칠 수 있다
 // configureStore에 객체를 전달 ( 설정 객체 )
@@ -47,8 +63,9 @@ const counterSlice = createSlice({
 // });
 
 const store = configureStore({
-  reducer: counterSlice.reducer,
+  reducer: { counter: counterSlice.reducer, auth: authSlice.reducer,}
 });
 
 export const counterActions = counterSlice.actions;
+export const authActions = authSlice.actions;
 export default store;

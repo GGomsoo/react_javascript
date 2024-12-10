@@ -30,8 +30,10 @@ const Counter = () => {
 
   // useSelector를 통해
   // 해당 컴포넌트에 필요한 상태를 자동으로 구독
-  const counter = useSelector(state => state.counter);
-  const show = useSelector(state => state.showCounter);
+  // 다중 Slice를 사용하는 경우에는
+  // Reducer에 설정한 key값을 이용한 후 필요한 state를 호출한다
+  const counter = useSelector(state => state.counter.counter);
+  const show = useSelector(state => state.counter.showCounter);
   
   return (
     <main className={classes.counter}>
