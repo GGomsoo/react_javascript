@@ -40,6 +40,10 @@ export async function action({request}) {
   }
 
   // 토큰 관리
+  const resData = await response.json();
+  const token = resData.token;
+
+  localStorage.setItem("token", token)
   // 로그인 성공하면 메인 페이지로 redirect
   return redirect("/")
 }
