@@ -1,14 +1,16 @@
-import { useState } from 'react';
-import { Form } from 'react-router-dom';
+// useSearchParams = 검색 파라미터
+import { Form, Link, useSearchParams } from 'react-router-dom';
 
 import classes from './AuthForm.module.css';
 
 function AuthForm() {
-  const [isLogin, setIsLogin] = useState(true);
+  // 쿼리 매개변수를 찾기 위한 searchParams
+  const [ searchParams, setSearchParams ] = useSearchParams();
 
-  function switchAuthHandler() {
-    setIsLogin((isCurrentlyLogin) => !isCurrentlyLogin);
-  }
+  // mode에 따라 로그인, 회원가입으로 변환
+  // mode가 login인 경우엔 회원가입으로
+  // mode가 signup인 경우엔 로그인으로
+  const isLogin = searchParams.get("mode") === "login"
 
   return (
     <>
@@ -23,9 +25,9 @@ function AuthForm() {
           <input id="password" type="password" name="password" required />
         </p>
         <div className={classes.actions}>
-          <button onClick={switchAuthHandler} type="button">
+          <Link to={`?mode=${isLogin ? "signup" : "login"}`}>
             {isLogin ? 'Create new user' : 'Login'}
-          </button>
+          </Link>
           <button>Save</button>
         </div>
       </Form>
