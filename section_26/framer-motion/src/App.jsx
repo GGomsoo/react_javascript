@@ -8,6 +8,9 @@ function App() {
 
   return (
     <div id="demo">
+      {/* framer-motion을 적용시킬 div를 motion.div로 변경 */}
+      {/* animate: x축, y축, 회전에 대한 설정 */}
+      {/* transition: 적용 시간, 추가 효과에 대한 설정 */}
       <motion.div id="box" animate={{ x, y, rotate }} transition={{
         duration: 0.3, // 애니메이션 적용 시간
         // bounce: 1, // 공 튀기는듯한 효과
