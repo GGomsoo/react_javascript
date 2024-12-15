@@ -2,6 +2,8 @@ import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 
 export default function Modal({ title, children, onClose }) {
+  // const hiddenAnimation = { opacity: 0, y: 30};
+
   return createPortal(
     <>
       <div className="backdrop" onClick={onClose} />
@@ -10,9 +12,13 @@ export default function Modal({ title, children, onClose }) {
         // exit: 요소를 닫을 때 적용할 애니메이션
         open
         className="modal"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 30 }}
+        variants={{
+          hidden: { opacity: 0, y: 30},
+          visible: { opacity: 1, y: 0}
+        }}
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
       >
         <h2>{title}</h2>
         {children}
