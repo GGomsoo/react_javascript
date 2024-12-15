@@ -28,7 +28,8 @@ export default function ChallengeItem({
   }
 
   return (
-    <li>
+    // layout 속성을 사용하면 레이아웃 변화에 자동적으로 애니메이션 효과를 준다
+    <motion.li layout>
       <article className="challenge-item">
         <header>
           <img {...challenge.image} />
@@ -64,6 +65,6 @@ export default function ChallengeItem({
           )}
         </div>
       </article>
-    </li>
+    </motion.li>
   );
 }
