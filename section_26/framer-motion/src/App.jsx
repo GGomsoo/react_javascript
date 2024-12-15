@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from "framer-motion"; // framer-motion 이용하기 위한 모듈
 
 function App() {
   const [x, setX] = useState(0);
@@ -7,7 +8,11 @@ function App() {
 
   return (
     <div id="demo">
-      <div id="box" />
+      <motion.div id="box" animate={{ x, y, rotate }} transition={{
+        duration: 0.3, // 애니메이션 적용 시간
+        // bounce: 1, // 공 튀기는듯한 효과
+        type: "spring", // 약간 튕기는 듯한 효과를 준다
+      }} />
 
       <div id="inputs">
         <p>
