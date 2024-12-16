@@ -12,7 +12,8 @@ function Tab({ isSelected, onSelect, badgeCaption, children }) {
         <Badge caption={badgeCaption}></Badge>
       </button>
       {/* UI에서 함께 움직여야하는 요소가 있다면 layoutId를 사용하여 애니메이션 효과를 준다 */}
-      {isSelected && <motion.div layoutId='tab-indicator' className="active-tab-indicator" />}
+      {/* layoutId는 애니메이션 효과를 줄 요소의 고유 식별자이다 */}
+      {isSelected && <motion.div layoutId='tab' className="active-tab-indicator" />}
     </li>
   );
 }
