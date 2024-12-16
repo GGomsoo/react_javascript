@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import Badge from './Badge.jsx';
 
 function Tab({ isSelected, onSelect, badgeCaption, children }) {
@@ -10,7 +11,8 @@ function Tab({ isSelected, onSelect, badgeCaption, children }) {
         {children}
         <Badge caption={badgeCaption}></Badge>
       </button>
-      {isSelected && <div className="active-tab-indicator" />}
+      {/* UI에서 함께 움직여야하는 요소가 있다면 layoutId를 사용하여 애니메이션 효과를 준다 */}
+      {isSelected && <motion.div layoutId='tab-indicator' className="active-tab-indicator" />}
     </li>
   );
 }
