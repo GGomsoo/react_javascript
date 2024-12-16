@@ -9,7 +9,9 @@ function Tab({ isSelected, onSelect, badgeCaption, children }) {
         onClick={onSelect}
       >
         {children}
-        <Badge caption={badgeCaption}></Badge>
+        {/* badgeCaption은 badge와 연결된 list에 속한 항목의 갯수 */}
+        {/* 이 값이 변경될 때마다 애니메이션 효과를 준다 */}
+        <Badge key={badgeCaption} caption={badgeCaption}></Badge>
       </button>
       {/* UI에서 함께 움직여야하는 요소가 있다면 layoutId를 사용하여 애니메이션 효과를 준다 */}
       {/* layoutId는 애니메이션 효과를 줄 요소의 고유 식별자이다 */}
