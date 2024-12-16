@@ -57,6 +57,7 @@ export default function ChallengeItem({
             </button>
           </p>
 
+          {/* AnimatePresence를 사용하여 list의 Details를 펼치고 접으면 애니메이션 효과를 준다 */}
           <AnimatePresence>
             {isExpanded && (
               <motion.div
