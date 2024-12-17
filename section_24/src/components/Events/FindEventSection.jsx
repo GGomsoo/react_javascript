@@ -17,15 +17,16 @@ export default function FindEventSection() {
   }
 
   // queryFn을 익명 함수로 설정, 검색 키워드를 포함한 결과를 얻고 싶다
-  const { data, isPending, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["events", { search: searchTerm }],
     queryFn: ({signal}) => fetchEvents({signal, searchTerm}),
+    enabled: searchTerm !== undefined,
   });
 
   let content = <p>Loading...</p>;
 
   // 시나리오에 따른 content 값을 설정하였음.
-  if (isPending) {
+  if (isLoading) {
     content = <LoadingIndicator />;
   }
 
