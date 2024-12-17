@@ -32,7 +32,7 @@ export default function NewEvent() {
   return (
     <Modal onClose={() => navigate("../")}>
       <EventForm onSubmit={handleSubmit}>
-        {isPending && <p>Creating event...</p>}
+        {isPending && "Creating event..."}
         {!isPending && (
           <>
             <Link to="../" className="button-text">
