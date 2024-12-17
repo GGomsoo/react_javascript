@@ -1,11 +1,13 @@
-export default async function fetchEvents(searchTerm) {
+export default async function fetchEvents({ signal, searchTerm }) {
+  console.log(searchTerm);
   let url = "http://localhost:3000/events";
 
   if (searchTerm) {
     url += "?search=" + searchTerm;
   }
 
-  const response = await fetch(url);
+  // 신호에 따른 요청 처리
+  const response = await fetch(url, {signal: signal});
 
   if (!response.ok) {
     const error = new Error('An error occurred while fetching the events');
