@@ -7,9 +7,11 @@ import { fetchEvents } from '../../util/http.js';
 
 export default function NewEventsSection() {
   // useQuery 구성
+
+  // 405. 이벤트 전체가 아닌, 일부만 보이게 설정
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ['events'],
-    queryFn: fetchEvents,
+    queryKey: ['events', { max: 3}],
+    queryFn: ({ signal, queryKey }) => fetchEvents({ signal, ...queryKey[1]}),
     staleTime: 1000 * 5,
   });
 

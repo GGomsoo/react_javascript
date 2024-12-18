@@ -19,7 +19,7 @@ export default function FindEventSection() {
   // queryFn을 익명 함수로 설정, 검색 키워드를 포함한 결과를 얻고 싶다
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["events", { search: searchTerm }],
-    queryFn: ({signal}) => fetchEvents({signal, searchTerm}),
+    queryFn: ({signal, queryKey}) => fetchEvents({signal, ...queryKey[1]}),
     enabled: searchTerm !== undefined,
   });
 
